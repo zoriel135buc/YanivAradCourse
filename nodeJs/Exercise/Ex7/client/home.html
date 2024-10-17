@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies App</title>
+  </head>
+  <body>
+    <h1>Movies List</h1>
+
+    <!-- Movie Table -->
+    <table border="1 px solid black" id="moviesTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Director</th>
+          <th>Premiered Year</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Form for Adding/Updating Movies -->
+    <h2>Add/Update Movie</h2>
+    <form id="movieForm">
+      <input type="hidden" id="movieId" />
+      <!-- Hidden input to track movie ID -->
+      <label for="name">Movie Name:</label>
+      <input type="text" id="name" required /><br />
+
+      <label for="director">Director:</label>
+      <input type="text" id="director" required /><br />
+
+      <label for="premieredYear">Premiered Year:</label>
+      <input type="number" id="premieredYear" required /><br />
+
+      <button type="button" onclick="createMovie()">POST</button>
+      <button type="button" onclick="updateMovie()">UPDATE</button>
+    </form>
+
+    <h2>Delete Movies</h2>
+    <ul id="deleteMoviesList">
+      <!-- Movie names for deletion will be shown here -->
+    </ul>
+
+    <script>
+      const apiBaseUrl = "http://localhost:3000/movies";
+
+      // Fetch all movies and display them in the table
+      async function loadMovies() {
+        const response = await fetch(apiBaseUrl);
+        const movies = await response.json();
+        const tableBody = document.querySelector("#moviesTable tbody");
+        const deleteMoviesList = document.getElementById("deleteMoviesList");
+
+        tableBody.innerHTML = ""; // Clear existing table rows
+        deleteMoviesList.innerHTML = ""; // Clear existing delete options
+
+        movies.forEach((movie) => {
+          // Populate table with correct property names
+          const row = `<tr>
+            <td>${movie.name}</td>
+            <td>${movie.Director ? movie.Director : "Unknown"}</td>
+            <td>${movie.PremierYear ? movie.PremierYear : "Unknown"}</td>
+            <td>
+              <button onclick="editMovie('${movie._id}', '${movie.name}', '${
+            movie.Director
+          }', '${movie.PremierYear}')">Edit</button>
+              <button onclick="deleteMovie('${movie._id}')">Delete</button>
+            </td>
+          </tr>`;
+          tableBody.innerHTML += row;
+
+          // Add to delete list
+          const deleteItem = `<li>
+            ${movie.name} <button onclick="deleteMovie('${movie._id}')">Delete</button>
+          </li>`;
+          deleteMoviesList.innerHTML += deleteItem;
+        });
+      }
+
+      // Create a new movie (POST request)
+      async function createMovie() {
+        const name = document.getElementById("name").value;
+        const Director = document.getElementById("director").value;
+        const PremierYear = document.getElementById("premieredYear").value;
+
+        const newMovie = {
+          name: name,
+          Director: Director,
+          PremierYear: parseInt(PremierYear), // Ensure PremierYear is a number
+        };
+
+        const response = await fetch(apiBaseUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMovie),
+        });
+
+        const addedMovie = await response.json();
+        console.log("Added movie:", addedMovie);
+
+        // Reload movies list
+        loadMovies();
+      }
+
+      // Load movie details into form for editing
+      function editMovie(id, name, director, premierYear) {
+        document.getElementById("movieId").value = id; // Set movie ID in hidden input
+        document.getElementById("name").value = name;
+        document.getElementById("director").value = director;
+        document.getElementById("premieredYear").value = premierYear;
+      }
+
+      // Update an existing movie (PUT request)
+      async function updateMovie() {
+        const id = document.getElementById("movieId").value;
+        if (!id) {
+          alert("Please select a movie to update.");
+          return;
+        }
+
+        const name = document.getElementById("name").value;
+        const Director = document.getElementById("director").value;
+        const PremierYear = document.getElementById("premieredYear").value;
+
+        const updatedMovie = {
+          name: name,
+          Director: Director,
+          PremierYear: parseInt(PremierYear), // Ensure PremierYear is a number
+        };
+
+        const response = await fetch(`${apiBaseUrl}/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedMovie),
+        });
+
+        const updatedData = await response.json();
+        console.log("Updated movie:", updatedData);
+
+        // Reload movies list
+        loadMovies();
+      }
+
+      // Delete a movie (DELETE request)
+      async function deleteMovie(movieId) {
+        await fetch(`${apiBaseUrl}/${movieId}`, {
+          method: "DELETE",
+        });
+        loadMovies(); // Reload after deletion
+      }
+
+      // Load movies on page load
+      window.onload = loadMovies;
+    </script>
+  </body>
+</html>

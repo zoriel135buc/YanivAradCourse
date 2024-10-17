@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "model": "Mazda",
+    "color": "Red"
+  },
+  {
+    "id": 2,
+    "model": "Subaru",
+    "color": "White"
+  },
+  {
+    "id": 3,
+    "model": "Tesla",
+    "color": "White"
+  },
+  {
+    "id": "6295b46c-a174-4c8a-8620-97231197687f",
+    "model": "Ferrari",
+    "color": "Red"
+  },
+  {
+    "id": "fa5edd06-c095-4b38-bdd6-6d60aa4bfcbc",
+    "model": "Toyota",
+    "color": "Yellow"
+  }
+]
