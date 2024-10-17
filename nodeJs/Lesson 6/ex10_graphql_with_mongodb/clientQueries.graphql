@@ -1,0 +1,79 @@
+# getAllProducts
+query {
+  getAllProducts {
+    _id,
+    name,
+    price,
+    color
+  }
+}
+
+
+# getProduct
+query($id :String){
+  getProduct(id : $id) {
+    _id,
+    name,
+    price,
+    color
+  }
+}
+
+QUERY VARIABLES:
+{
+  "id" : "61233c2e12963208e6dcae86"
+}
+
+
+# addProduct
+mutation($prod: ProductInput) {
+  addProduct(prod : $prod)
+}
+
+{
+  "prod": {
+    "name" : "Car",
+    "color" : "Blue",
+    "price": 600
+  }
+}
+
+
+# updateProduct
+mutation($id :String, $prod: ProductInput) {
+  updateProduct(id :$id, prod : $prod)
+}
+
+{
+  "id" : "612342f8e0c5fd05d4299f25",
+  "prod": {
+    "name" : "Truck",
+    "color" : "Black",
+    "price": 700
+  }
+}
+
+
+# deleteProduct
+mutation($id :String) {
+  deleteProduct(id :$id)
+}
+
+{
+  "id" : "612342f8e0c5fd05d4299f25"
+}
+
+
+# getProductExpensiveThan
+query($price :Int){
+  getProductExpensiveThan(price :$price) {
+    _id,
+    name,
+    price,
+    color
+  }
+}
+
+{
+  "price" : 110
+}

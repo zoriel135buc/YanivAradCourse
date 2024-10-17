@@ -1,0 +1,86 @@
+{
+  getAllStudents {
+    id
+    name
+    faculty
+    grades {
+      profession
+      score
+    }
+  }
+}
+
+query ($id: Int) {
+  getStudentById(id: $id) {
+    name
+    faculty
+    grades {
+      profession
+      score
+    }
+  }
+}
+VARIABLES:
+{
+  "id": 2
+}
+
+query ($faculty: String) {
+  getStudentsByFaculty(faculty: $faculty) {
+    name
+  }
+}
+VARIABLES:
+{
+  "faculty": "CS"
+}
+
+query ($id: Int) {
+  getStudentAverage(id: $id)
+}
+VARIABLES:
+{
+  "id": 1
+}
+
+mutation ($stud: StudentInput) {
+  addStudent(stud: $stud)
+}
+VARIABLES:
+{
+  "stud": {
+    "id": 4,
+    "name": "Yael",
+    "faculty": "Biology"
+  }
+}
+
+mutation ($id: Int, $profession: String, $score: Int) {
+  addGradeToStudent(id: $id, profession: $profession, score: $score)
+}
+VARIABLES:
+{
+  "id": 2,
+  "profession": "Math",
+  "score": 93
+}
+
+mutation ($stud: StudentInput) {
+  updateStudent(stud: $stud)
+}
+VARIABLES:
+{
+  "stud": {
+    "id": 3,
+    "name": "Gil",
+    "faculty": "Physics"
+  }
+}
+
+mutation ($id: Int) {
+  deleteStudent(id: $id)
+}
+VARIABLES:
+{
+  "id": 2
+}

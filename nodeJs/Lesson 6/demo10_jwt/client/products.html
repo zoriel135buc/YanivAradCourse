@@ -1,0 +1,20 @@
+<html>
+  <body onload="getProducts()">
+    <h1>Products Page</h1>
+
+    <script>
+      const url = 'http://localhost:3000/products';
+
+      const getProducts = async () => {
+        const token = sessionStorage.token;
+
+        const resp = await fetch(url, {
+          headers: { 'x-access-token': token },
+        });
+
+        const data = await resp.json();
+        console.log(data);
+      };
+    </script>
+  </body>
+</html>

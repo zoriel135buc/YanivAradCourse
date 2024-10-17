@@ -1,0 +1,35 @@
+<html>
+  <body>
+    <button onclick="addPerson()">Add Person</button>
+
+    <script>
+      const PERS_URL = 'http://localhost:4000/persons';
+
+      async function addPerson() {
+        const q = `
+          mutation ($person: PersonInput) {
+            addPerson(per: $person)
+          }
+        `;
+
+        const queryVer = {
+          person: {
+            id: 4,
+            name: 'John',
+            age: 99,
+          },
+        };
+
+        const resp = await fetch(PERS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q, variables: queryVer }),
+        });
+
+        const data = await resp.json();
+
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>
