@@ -1,18 +1,19 @@
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 
 // mount a GraphQL API server on the '/persons' HTTP endpoint
-const { graphqlHTTP } = require('express-graphql');
-const { buildSchema } = require('graphql');
+const { graphqlHTTP } = require("express-graphql");
+const { buildSchema } = require("graphql");
 
-const personsService = require('./services/personsService');
+const personsService = require("./services/personsService");
 
 // construct a schema, using GraphQL schema language
 const schema = buildSchema(`
     input PersonInput {
       id: Int
       name: String
-      age: Int
+     faculty:String
+     
     }
 
     type Person {
@@ -50,7 +51,7 @@ const PORT = 4000;
 app.use(cors());
 
 app.use(
-  '/persons',
+  "/persons",
   graphqlHTTP({
     schema,
     rootValue: root,

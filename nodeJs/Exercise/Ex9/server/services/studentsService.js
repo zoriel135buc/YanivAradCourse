@@ -1,4 +1,3 @@
-/* Static Data */
 const students = [
   {
     id: 1,
@@ -22,20 +21,18 @@ const students = [
     grades: [{ profession: "Physics", score: 88 }],
   },
 ];
-
 const getAllStudents = () => {
   return students;
 };
-
-const getStudentById = ({ id }) => {
-  return students.find((s) => s.id === id);
+const getStudentById = (args) => {
+  const { id } = args;
+  return students.find((student) => student.id === id);
 };
-
-const getStudentsByFaculty = ({ faculty }) => {
+const getAllStudentsByFaculty = (args) => {
+  const { faculty } = args;
   return students.filter((s) => s.faculty === faculty);
 };
-
-const getStudentAverage = ({ id }) => {
+const getStudentByAvg = (args) => {
   const stud = getStudentById({ id });
   if (stud.grades.length) {
     const sum = stud.grades.reduce(
@@ -49,45 +46,44 @@ const getStudentAverage = ({ id }) => {
   }
 };
 
-const addStudent = ({ stud }) => {
-  students.push({ ...stud, grades: [] });
-  return "Created!";
+const addStudent = (args) => {
+  const { stud } = args;
+  students.push(stud);
+  return "Created";
 };
-
 const addGradeToStudent = ({ id, profession, score }) => {
   const index = students.findIndex((s) => s.id === id);
   if (index !== -1) {
     students[index].grades.push({ profession, score });
-    return "Grade was added";
+    return `Grade was added`;
   }
-  return "Wrong ID";
+  return `wrong Id`;
 };
-
-const updateStudent = ({ stud }) => {
+const updateStudent = (args) => {
+  const { stud } = args;
   const index = students.findIndex((s) => s.id === stud.id);
   if (index !== -1) {
     students[index] = { ...students[index], ...stud };
     return "Updated!";
   }
-  return "Wrong ID";
+  return `wrong Id`;
 };
-
-const deleteStudent = ({ id }) => {
-  const index = students.findIndex((s) => s.id === id);
+const deleteStudent = (args) => {
+  const { id } = args;
+  const index = students.findIndex((stud) => stud.id === id);
   if (index !== -1) {
     students.splice(index, 1);
-    return "Deleted!";
+    return `deleted`;
   }
   return "Wrong ID";
 };
-
 module.exports = {
   getAllStudents,
   getStudentById,
-  getStudentsByFaculty,
-  getStudentAverage,
+  getAllStudentsByFaculty,
   addStudent,
-  addGradeToStudent,
-  updateStudent,
   deleteStudent,
+  updateStudent,
+  getStudentByAvg,
+  addGradeToStudent,
 };
