@@ -1,29 +1,37 @@
 import { useState } from "react";
-function Product() {
-  const [Product, setProduct] = useState({});
+import Ex2_1Child from "./Ex2_1Child";
+function Ex2_1comp() {
+  const [product, setProduct] = useState({});
+  const [products, setProducts] = useState([]);
+  const [isTable, setIsTable] = useState(true);
+  const addProd = () => {
+    setProducts([...products, product]);
+  };
   return (
-    <>
-      <h1>products</h1>
-      Product Name:{" "}
+    <div>
+      product name:
       <input
-        onChange={(e) => setProduct({ ...Product, name: e.target.value })}
+        onChange={(e) => setProduct({ ...product, name: e.target.value })}
         type="text"
-      />{" "}
-      <br />
-      Product Price:{" "}
+      />
+      <br></br>
+      product price:{" "}
       <input
-        onChange={(e) => setProduct({ ...Product, price: +e.target.value })}
+        onChange={(e) => setProduct({ ...product, price: +e.target.value })}
         type="number"
-      />{" "}
+      />
       <br />
-      Product Color:{" "}
+      product color:{" "}
       <input
-        onChange={(e) => setProduct({ ...Product, color: e.target.value })}
+        onChange={(e) => setProduct({ ...product, color: e.target.value })}
         type="text"
-      />{" "}
-      <br />
-      <button type="submit">save</button>
-    </>
+      />
+      <br></br>
+      <button onClick={addProd}>save products</button>
+      <button onClick={() => setIsTable(!isTable)}>Show products</button>
+      {isTable ? <Ex2_1Child products={products} /> : null}
+    </div>
   );
 }
-export default Product;
+
+export default Ex2_1comp;
