@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Parent from "./Hw3/Parent";
+import HW4 from "./Hw4/HW4";
 
 import "./App.css";
 import Hw2 from "./Hw2/Hw2";
@@ -9,7 +10,8 @@ function App() {
 
   return (
     <>
-      <Parent />
+      {/* <Parent /> */}
+      <HW4 />
     </>
   );
 }

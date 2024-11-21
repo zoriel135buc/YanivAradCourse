@@ -1,27 +1,28 @@
 import React from "react";
 
-const Ex2_1Child = (props) => {
+function Ex2_1Child({ setPersons }) {
+  const [newPerson, setNewPerson] = useState({});
   return (
     <div>
-      <table border={1}>
-        <tbody>
-          <tr>
-            <th>product name</th>
-            <th>product price</th>
-            <th>product color</th>
-          </tr>
-          {props.products.map((product, index) => {
-            return (
-              <tr key={index}>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.color}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      name Person:
+      <input
+        type="text"
+        onChange={(e) => setNewPerson({ ...newPerson, name: e.target.value })}
+      />
+      <br />
+      age Person :{" "}
+      <input
+        type="number"
+        onChange={(e) => setNewPerson({ ...newPerson, age: e.target.value })}
+      />
+      city Person:{" "}
+      <input
+        type="text"
+        onChange={(e) => setNewPerson({ ...newPerson, city: e.target.value })}
+      />
+      <button onClick={(e) => setPersons({ newPerson })}>add Person</button>
     </div>
   );
-};
+}
+
 export default Ex2_1Child;
