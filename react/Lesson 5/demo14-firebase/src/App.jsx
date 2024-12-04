@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import db from './firebase';
+import { useState } from "react";
+import db from "./firebase";
 import {
   addDoc,
   collection,
@@ -8,14 +8,14 @@ import {
   onSnapshot,
   query,
   updateDoc,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [person, setPerson] = useState({});
 
   const getAll = () => {
-    const q = query(collection(db, 'persons'));
+    const q = query(collection(db, "persons"));
     onSnapshot(q, (querySnapshot) => {
       // console.log(querySnapshot);
       setPersons(
@@ -30,7 +30,7 @@ const App = () => {
   };
 
   const getById = () => {
-    const q = query(doc(db, 'persons', 'CXSx1iIlgFg75tXQnWMk'));
+    const q = query(doc(db, "persons", "CXSx1iIlgFg75tXQnWMk"));
     onSnapshot(q, (doc) => {
       setPerson({
         id: doc.id,
@@ -40,18 +40,18 @@ const App = () => {
   };
 
   const addPerson = async () => {
-    const obj = { name: 'John', age: 99 };
-    const data = await addDoc(collection(db, 'persons'), obj);
+    const obj = { name: "John", age: 99 };
+    const data = await addDoc(collection(db, "persons"), obj);
     console.log(`The ID of ${obj.name} is ${data.id}`);
   };
 
   const updatePerson = () => {
     const obj = { age: 54 };
-    updateDoc(doc(db, 'persons', 'iXJrY9TyUU6ZtVZkK31D'), obj);
+    updateDoc(doc(db, "persons", "iXJrY9TyUU6ZtVZkK31D"), obj);
   };
 
   const deletePerson = () => {
-    deleteDoc(doc(db, 'persons', 'iXJrY9TyUU6ZtVZkK31D'));
+    deleteDoc(doc(db, "persons", "iXJrY9TyUU6ZtVZkK31D"));
   };
 
   return (
