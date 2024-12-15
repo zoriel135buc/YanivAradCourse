@@ -1,30 +1,36 @@
+import { v4 as uuidv4 } from "uuid";
+
 const initialState = {
-  users: [],
+  cars: [],
 };
 
-// state - current state
-// action - { type: "WHAT_TO_DO", [payload: value] }
-const usersReducer = (state = initialState, action) => {
+const carsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD": {
-      return { ...state, users: [...state.users, action.payload] };
+    case "LOAD": {
+      return { ...state, cars: action.payload };
     }
 
-    case "UPDATE": {
-      const users = [...state.users];
-      const index = users.findIndex((user) => user.id === action.payload.id);
-
-      if (index !== -1) {
-        users[index] = action.payload;
-      }
-
-      return { ...state, users };
+    case "ADD": {
+      return {
+        ...state,
+        cars: [...state.cars, { id: uuidv4(), ...action.payload }],
+      };
     }
 
     case "DELETE": {
-      const users = state.users.filter((user) => user.id !== action.payload);
+      const cars = [...state.cars];
+      const index = cars.findIndex((car) => car.id === action.payload);
 
-      return { ...state, users };
+      if (index !== -1) {
+        if (cars[index].status === "UNCHANGED") {
+          cars[index].status = "DELETED";
+        } else {
+          // cars[index].status === 'NEW'
+          cars.splice(index, 1);
+        }
+      }
+
+      return { ...state, cars };
     }
 
     default:
@@ -32,4 +38,4 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export default usersReducer;
+export default carsReducer;
